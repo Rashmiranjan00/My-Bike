@@ -17,6 +17,9 @@ import com.anychart.enums.Position;
 import com.anychart.scales.Base;
 import com.anychart.scales.Linear;
 import com.github.anastr.speedviewlib.SpeedView;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class DashboardFragment extends Fragment {
@@ -24,6 +27,8 @@ public class DashboardFragment extends Fragment {
     private View mDashboardView;
     private SpeedView speedoMeter;
     private AnyChartView anyChartView;
+
+    private DatabaseReference mDatabase;
 
     public DashboardFragment() {
 
@@ -34,6 +39,9 @@ public class DashboardFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         mDashboardView = inflater.inflate(R.layout.fragment_dashboard, container, false);
+
+//        mDatabase = FirebaseDatabase.getInstance().getReference("test");
+//        mDatabase.setValue("Rashmiranjan");
 
         speedoMeter = mDashboardView.findViewById(R.id.speedView);
         speedoMeter.speedTo(50, 4000);
