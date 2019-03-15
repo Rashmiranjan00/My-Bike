@@ -104,7 +104,6 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginBottom="24dp"
                     android:src="@drawable/bike"
-                    android:layout_margin="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -113,10 +112,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="24dp"
-                    android:padding="8dp"
                     android:text="Riding Good"
                     android:textColor="@android:color/background_dark"
                     android:textSize="16sp"
+                    android:paddingLeft="4dp"
+                    android:textAlignment="center"
+                    android:padding="4dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/speedView"
                     app:layout_constraintStart_toEndOf="@+id/imageView" />
@@ -146,6 +147,7 @@
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
         app:cardElevation="8dp"
+        app:cardBackgroundColor="#6a89cc"
         app:layout_constraintBottom_toTopOf="@+id/cardBottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -155,25 +157,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.anychart.AnyChartView
-                android:id="@+id/any_chart_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:indeterminateTint="@color/materialYellow"
-                android:indeterminateTintMode="src_atop"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
         </android.support.constraint.ConstraintLayout>
     </android.support.design.card.MaterialCardView>
 
@@ -189,41 +172,68 @@
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
         app:cardElevation="8dp"
+        app:cardBackgroundColor="#60a3bc"
         app:layout_constraintBottom_toTopOf="@+id/cardLeftBtm"
         app:layout_constraintEnd_toStartOf="@+id/cardRight"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="64dp"
-                android:src="@drawable/support" />
+                android:id="@+id/ico"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/sun_white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Banking"
-                android:textStyle="bold" />
+                android:layout_marginTop="16dp"
+                android:text=""
+                android:textColor="#fff"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ico" />
 
-            <android.support.design.button.MaterialButton
+            <TextView
+                android:id="@+id/temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textSize="34sp"
+                android:textColor="#fff"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/city" />
+
+            <TextView
+                android:id="@+id/wType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:backgroundTint="@color/materialYellow"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:text="Custom Support"
-                android:textColor="@android:color/white" />
+                android:textColor="#fff"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/temp" />
+        </android.support.constraint.ConstraintLayout>
 
-        </LinearLayout>
+
     </android.support.design.card.MaterialCardView>
 
     <android.support.design.card.MaterialCardView
