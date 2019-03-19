@@ -11,6 +11,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -26,8 +27,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.github.anastr.speedviewlib.SpeedView;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,7 +47,9 @@ public class DashboardFragment extends Fragment implements LocationListener {
     private View mDashboardView;
     private SpeedView speedoMeter;
 
-    private DatabaseReference mDatabase;
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mRef;
+    private ValueEventListener mPostListner;
 
     private String baseURL = "http://api.openweathermap.org/data/2.5/weather?q=";
     private String API = "&APPID=ce0561bfb7f85db1240dbe34ead1561d";
@@ -52,9 +58,9 @@ public class DashboardFragment extends Fragment implements LocationListener {
     private Location location;
 
     double lat, lng;
-    String city, myURL;
+    String city, myURL, engTemp, turbidity;
 
-    private TextView temp, wType, wCity;
+    private TextView temp, wType, wCity, eTemp, eOil;
 
     public DashboardFragment() {
 
@@ -69,9 +75,13 @@ public class DashboardFragment extends Fragment implements LocationListener {
         temp = mDashboardView.findViewById(R.id.temp);
         wType = mDashboardView.findViewById(R.id.wType);
         wCity = mDashboardView.findViewById(R.id.city);
+        eTemp = mDashboardView.findViewById(R.id.eng_temp);
+        eOil = mDashboardView.findViewById(R.id.engOil);
 
-//        mDatabase = FirebaseDatabase.getInstance().getReference("test");
+        mDatabase = FirebaseDatabase.getInstance();
+        mRef = mDatabase.getReference();
 //        mDatabase.setValue("Rashmiranjan");
+
 
         speedoMeter = mDashboardView.findViewById(R.id.speedView);
         speedoMeter.speedTo(50, 4000);
@@ -97,6 +107,50 @@ public class DashboardFragment extends Fragment implements LocationListener {
         getWeather();
 
         return mDashboardView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        getEngineTemperature();
+        getTurbidityData();
+    }
+
+    private void getTurbidityData() {
+
+        mRef.child("turbidity").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                turbidity = dataSnapshot.getValue().toString();
+                Log.d("Engine Oil", turbidity);
+                eOil.setText(turbidity);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void getEngineTemperature() {
+
+        mRef.child("temp").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                engTemp = dataSnapshot.getValue().toString();
+                Log.d("Engine Temperature", engTemp);
+                eTemp.setText(engTemp);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     private void getWeather() {
