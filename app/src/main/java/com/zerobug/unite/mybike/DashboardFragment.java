@@ -18,6 +18,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,9 +61,11 @@ public class DashboardFragment extends Fragment implements LocationListener {
     private Location location;
 
     double lat, lng;
-    String city, myURL, engTemp, turbidity;
+    String city, myURL, engTemp, turbidity, speed;
 
-    private TextView temp, wType, wCity, eTemp, eOil;
+    private TextView temp, wType, wCity, eTemp, eOil, vSpeed;
+    private ImageView wIcon;
+    Animation rotate;
 
     public DashboardFragment() {
 
@@ -77,6 +82,8 @@ public class DashboardFragment extends Fragment implements LocationListener {
         wCity = mDashboardView.findViewById(R.id.city);
         eTemp = mDashboardView.findViewById(R.id.eng_temp);
         eOil = mDashboardView.findViewById(R.id.engOil);
+        wIcon = mDashboardView.findViewById(R.id.ico);
+        vSpeed = mDashboardView.findViewById(R.id.v_speed);
 
         mDatabase = FirebaseDatabase.getInstance();
         mRef = mDatabase.getReference();
@@ -84,7 +91,6 @@ public class DashboardFragment extends Fragment implements LocationListener {
 
 
         speedoMeter = mDashboardView.findViewById(R.id.speedView);
-        speedoMeter.speedTo(50, 4000);
 
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
@@ -103,8 +109,6 @@ public class DashboardFragment extends Fragment implements LocationListener {
         } else {
             Log.d("Provider :", "No provider");
         }
-        
-        getWeather();
 
         return mDashboardView;
     }
@@ -113,8 +117,29 @@ public class DashboardFragment extends Fragment implements LocationListener {
     public void onStart() {
         super.onStart();
 
+        getWeather();
         getEngineTemperature();
         getTurbidityData();
+        getSpeed();
+    }
+
+    private void getSpeed() {
+
+        mRef.child("speed").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                speed = dataSnapshot.getValue().toString();
+                Log.d("Speed", speed);
+                speedoMeter.speedTo(Float.parseFloat(speed), 4000);
+//                vSpeed.setText(speed);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     private void getTurbidityData() {
@@ -217,6 +242,7 @@ public class DashboardFragment extends Fragment implements LocationListener {
             return;
         }
         locationManager.requestLocationUpdates(provider, 400, 1, this);
+
     }
 
     @Override
