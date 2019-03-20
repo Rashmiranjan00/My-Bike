@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bottomActionHome"
+        android:icon="@drawable/dash"
+        android:title="Home" />
+    <item
+        android:id="@+id/bottomActionProfile"
+        android:icon="@drawable/profile"
+        android:title="Profile" />
+    <item
+        android:id="@+id/bottomActionContact"
+        android:icon="@drawable/contact"
+        android:title="Contact" />
+
+</menu>

@@ -167,7 +167,7 @@ public class DashboardFragment extends Fragment implements LocationListener {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 engTemp = dataSnapshot.getValue().toString();
                 Log.d("Engine Temperature", engTemp);
-                eTemp.setText(engTemp);
+                eTemp.setText(engTemp + " ℃");
             }
 
             @Override

@@ -1,32 +1,26 @@
 package com.zerobug.unite.mybike;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Criteria;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
+
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
+import android.view.MenuItem;
 
-import com.google.firebase.FirebaseApp;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
+    private DashboardFragment dashboardFragment;
+    private ProfileFragment profileFragment;
+    private ContactFragment contactFragment;
+
+    private BottomNavigationView mNavView;
 
 
     @Override
@@ -34,16 +28,84 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        Intent loginIntent = new Intent(this, LoginActivity.class);
-//        startActivity(loginIntent);
+        dashboardFragment = new DashboardFragment();
+        profileFragment = new ProfileFragment();
+        contactFragment = new ContactFragment();
 
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
+        mNavView = findViewById(R.id.bottomNavigationView);
+        
+        initializeFragment();
 
-        //Dashboard instantiate
-        DashboardFragment dashboardFragment = new DashboardFragment();
+        mNavView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        fragmentTransaction.replace(R.id.container, dashboardFragment);
+                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.mainContainer);
+
+                switch (item.getItemId()) {
+
+                    case R.id.bottomActionHome:
+                        replaceFragment(dashboardFragment, currentFragment);
+                        return true;
+
+                    case R.id.bottomActionProfile:
+                        replaceFragment(profileFragment, currentFragment);
+                        return true;
+
+                    case R.id.bottomActionContact:
+                        replaceFragment(contactFragment, currentFragment);
+                        return true;
+
+                    default:
+                        return false;
+
+
+                }
+            }
+        });
+
+    }
+
+    private void initializeFragment() {
+
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.mainContainer, dashboardFragment);
+        fragmentTransaction.add(R.id.mainContainer, profileFragment);
+        fragmentTransaction.add(R.id.mainContainer, contactFragment);
+
+        fragmentTransaction.hide(profileFragment);
+        fragmentTransaction.hide(contactFragment);
+        fragmentTransaction.commit();
+
+    }
+
+    private void replaceFragment(Fragment fragment, Fragment currentFragment) {
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
+        if (fragment == dashboardFragment) {
+
+            fragmentTransaction.hide(profileFragment);
+            fragmentTransaction.hide(contactFragment);
+
+        }
+
+        if (fragment == profileFragment) {
+
+            fragmentTransaction.hide(dashboardFragment);
+            fragmentTransaction.hide(contactFragment);
+
+        }
+
+        if (fragment == contactFragment) {
+
+            fragmentTransaction.hide(dashboardFragment);
+            fragmentTransaction.hide(profileFragment);
+
+        }
+
+        fragmentTransaction.show(fragment);
         fragmentTransaction.commit();
 
     }
