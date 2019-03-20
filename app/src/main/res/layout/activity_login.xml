@@ -21,11 +21,11 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginTop="64dp"
-            android:src="@color/colorBlue"
+            android:src="@mipmap/ic_launcher"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/signInBtn"
