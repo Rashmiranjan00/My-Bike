@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "70170621756",
+    "firebase_url": "https://mo-bike.firebaseio.com",
+    "project_id": "mo-bike",
+    "storage_bucket": "mo-bike.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:70170621756:android:f265d8a161088ef6",
+        "android_client_info": {
+          "package_name": "com.zerobug.unite.mybike"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "70170621756-5cj1md7kelp83rdg6pveqdmsfl14pqtf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQTdDMKSZeX8ii7LmcdvAlcSq30VPNkUM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

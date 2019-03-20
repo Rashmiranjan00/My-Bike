@@ -13,6 +13,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,48 +25,72 @@ public class MainActivity extends AppCompatActivity {
     private ContactFragment contactFragment;
 
     private BottomNavigationView mNavView;
+    private FirebaseAuth mAuth;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        
         dashboardFragment = new DashboardFragment();
         profileFragment = new ProfileFragment();
         contactFragment = new ContactFragment();
 
         mNavView = findViewById(R.id.bottomNavigationView);
-        
-        initializeFragment();
 
-        mNavView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.mainContainer);
-
-                switch (item.getItemId()) {
-
-                    case R.id.bottomActionHome:
-                        replaceFragment(dashboardFragment, currentFragment);
-                        return true;
-
-                    case R.id.bottomActionProfile:
-                        replaceFragment(profileFragment, currentFragment);
-                        return true;
-
-                    case R.id.bottomActionContact:
-                        replaceFragment(contactFragment, currentFragment);
-                        return true;
-
-                    default:
-                        return false;
+        mAuth = FirebaseAuth.getInstance();
 
 
+        if (mAuth.getCurrentUser() != null) {
+            initializeFragment();
+
+            mNavView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                    Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.mainContainer);
+
+                    switch (item.getItemId()) {
+
+                        case R.id.bottomActionHome:
+                            replaceFragment(dashboardFragment, currentFragment);
+                            return true;
+
+                        case R.id.bottomActionProfile:
+                            replaceFragment(profileFragment, currentFragment);
+                            return true;
+
+                        case R.id.bottomActionContact:
+                            replaceFragment(contactFragment, currentFragment);
+                            return true;
+
+                        default:
+                            return false;
+
+
+                    }
                 }
-            }
-        });
+            });
+
+        }
+
+    }
+
+    @Override
+    protected void onStart() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(currentUser == null) {
+            sendToLogin();
+        }
+        super.onStart();
+    }
+
+    private void sendToLogin() {
+
+        Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(loginIntent);
+        finish();
 
     }
 
