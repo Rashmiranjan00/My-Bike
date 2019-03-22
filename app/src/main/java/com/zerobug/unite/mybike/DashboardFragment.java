@@ -149,7 +149,7 @@ public class DashboardFragment extends Fragment implements LocationListener {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 turbidity = dataSnapshot.getValue().toString();
                 Log.d("Engine Oil", turbidity);
-                eOil.setText(turbidity);
+                eOil.setText(turbidity + " NTU");
             }
 
             @Override
