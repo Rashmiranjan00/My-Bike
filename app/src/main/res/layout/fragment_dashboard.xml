@@ -137,8 +137,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="Oil \nStatus"
+                android:layout_marginTop="32dp"
+                android:text="Oil Status"
                 android:textAlignment="center"
                 android:textColor="#fff"
                 android:textSize="24sp"
@@ -149,13 +149,13 @@
                 android:id="@+id/engOil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:textAlignment="center"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
                 android:text=""
+                android:textAlignment="center"
                 android:textColor="#fff"
                 android:textSize="34sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView4"
                 app:layout_constraintTop_toBottomOf="@+id/eng_temp" />
         </android.support.constraint.ConstraintLayout>
 
